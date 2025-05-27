@@ -1,0 +1,28 @@
+trigger:
+- main  # atau ganti sesuai nama branch kamu
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    echo "No build script, skipping build step"
+  displayName: 'Install Dependencies'
+
+- script: |
+    echo "Simulasi testing..."
+    echo "Tidak ada file test, jadi lewati"
+  displayName: 'Run Tests (optional)'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.SourcesDirectory)'
+    ArtifactName: 'nodejs-static-site'
+    publishLocation: 'Container'
+  displayName: 'Publish Artifacts'
